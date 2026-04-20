@@ -4,6 +4,7 @@
 #  Run this from the /Pathik root folder: bash start.sh
 # ═══════════════════════════════════════════════════════════
 
+# Add common local bin paths to PATH
 export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
 
 echo ""
@@ -18,20 +19,28 @@ echo ""
 echo "  Starting all services..."
 echo "═══════════════════════════════════════════════════════════"
 
+ROOT_DIR=$(pwd)
+
 # ── Start Backend ──────────────────────────────────────────
 echo ""
 echo "  [1/2] 🚀 Starting Backend (NestJS) on http://localhost:3000"
-osascript -e "tell application \"Terminal\"
-  do script \"cd '$(pwd)/pathik-backend' && export PATH='/usr/local/bin:/opt/homebrew/bin:\\\$PATH' && npm run start:dev\"
-end tell"
+
+osascript <<EOF
+tell application "Terminal"
+    do script "cd \"$ROOT_DIR/pathik-backend\" && export PATH=\"/usr/local/bin:/opt/homebrew/bin:\$PATH\" && npm run start:dev"
+end tell
+EOF
 
 sleep 3
 
 # ── Start Mobile App ───────────────────────────────────────
 echo "  [2/2] 📱 Starting Mobile App (Expo) — scan QR with Expo Go"
-osascript -e "tell application \"Terminal\"
-  do script \"cd '$(pwd)/pathik-mobile' && export PATH='/usr/local/bin:/opt/homebrew/bin:\\\$PATH' && npm start\"
-end tell"
+
+osascript <<EOF
+tell application "Terminal"
+    do script "cd \"$ROOT_DIR/pathik-mobile\" && export PATH=\"/usr/local/bin:/opt/homebrew/bin:\$PATH\" && npm start"
+end tell
+EOF
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"

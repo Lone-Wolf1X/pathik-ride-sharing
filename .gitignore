@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build and Output
+dist/
+build/
+web-build/
+.expo/
+*.tsbuildinfo
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MacOS
+.DS_Store
+
+# Native (React Native)
+pathik-mobile/ios/
+pathik-mobile/android/
+pathik-mobile/*.jks
+pathik-mobile/*.p8
+pathik-mobile/*.p12
+pathik-mobile/*.key
+pathik-mobile/*.mobileprovision
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*

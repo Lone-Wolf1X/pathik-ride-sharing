@@ -4,10 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from '../screens/auth/LoginScreen';
 import MainTabNavigator from './MainTabNavigator';
 
+import { useAuthStore } from '../store/auth.store';
+
 const Stack = createStackNavigator();
 
 export default function RootNavigator() {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false); // Simulate auth state
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
     <NavigationContainer>

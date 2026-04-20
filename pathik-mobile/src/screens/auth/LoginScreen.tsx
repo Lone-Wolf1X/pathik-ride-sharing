@@ -12,8 +12,31 @@ import {
 } from 'react-native';
 import { Theme } from '../../theme/theme';
 import { MapPin, Phone, ArrowRight } from 'lucide-react-native';
+import { useAuthStore } from '../../store/auth.store';
 
 export default function LoginScreen() {
+  const [phoneNumber, setPhoneNumber] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const login = useAuthStore((state) => state.login);
+
+  const handleLogin = async () => {
+    if (phoneNumber.length < 10) {
+      alert('Please enter a valid phone number');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await login(phoneNumber);
+    } catch (error) {
+      alert('Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -39,12 +62,21 @@ export default function LoginScreen() {
               placeholder="98XXXXXXXX"
               keyboardType="phone-pad"
               placeholderTextColor={Theme.colors.textLight}
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              maxLength={10}
             />
           </View>
 
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>Get OTP</Text>
-            <ArrowRight size={20} color={Theme.colors.white} />
+          <TouchableOpacity 
+            style={[styles.loginButton, isLoading && { opacity: 0.7 }]} 
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            <Text style={styles.loginButtonText}>
+              {isLoading ? 'Verifying...' : 'Get OTP'}
+            </Text>
+            {!isLoading && <ArrowRight size={20} color={Theme.colors.white} />}
           </TouchableOpacity>
         </View>
 
